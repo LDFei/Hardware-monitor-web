@@ -3,6 +3,7 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   main: {
+    assetsInclude: ["**/*.node", "**.*.lib", "**/*.dll", "**/*.xml"],
     resolve:{
       alias: {
         '@': resolve('./src'),
@@ -30,7 +31,7 @@ export default defineConfig({
       },
 
     },
-    assetsInclude: ["**/*.node"],
+    assetsInclude: ["**/*.node", "**.*.lib", "**/*.dll", "**/*.xml"],
     plugins: [vue()],
   }
 })
