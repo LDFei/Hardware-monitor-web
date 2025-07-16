@@ -12,13 +12,15 @@
         {{ MenuUnit.name }}
       </button>
     </div>
-    <router-view></router-view>
+    <router-view>
+    </router-view>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import {useRouter } from 'vue-router'
+
 const router=useRouter();
 let Menu = ref([
   {
@@ -31,19 +33,19 @@ let Menu = ref([
     name: 'GPU',
     isActive : false,
     id:1,
-    path:"",
+    path:"/hardwareInfo/gpu",
   },
   {
     name: '主板',
     isActive : false,
     id:2,
-    path:"",
+    path:"/hardwareInfo/board",
   },
   {
     name: '内存',
     isActive : false,
     id:3,
-    path:"",
+    path:"/hardwareInfo/mem",
   },
   {
     name: '硬盘',
