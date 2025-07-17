@@ -6,8 +6,6 @@ import ThemeEditing from '../componments/ThemeEditing.vue'
 import Cpu from '../componments/HardwareInfo/Cpu.vue'
 import Gpu from '../componments/HardwareInfo/Gpu.vue'
 import Mem from '../componments/HardwareInfo/Mem.vue'
-import Board from '../componments/HardwareInfo/Board.vue'
-import Disk_usage from '../componments/HardwareInfo/Disk_usage.vue'
 import Display from '../componments/HardwareInfo/Display.vue'
 const router = createRouter({
   history: createWebHistory(),
@@ -28,14 +26,6 @@ const router = createRouter({
         {
           path: "/hardwareInfo/mem",
           component:Mem,
-        },
-        {
-          path: "/hardwareInfo/board",
-          component:Board,
-        },
-        {
-          path: "/hardwareInfo/disk_usage",
-          component:Disk_usage,
         },
         {
           path: "/hardwareInfo/display",

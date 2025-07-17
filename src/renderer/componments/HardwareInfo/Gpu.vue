@@ -2,6 +2,13 @@
   <div class="All_information">
     <div class="background">
       <div class="gpu_name_style">
+        <!-- 刷新按钮 -->
+        <div class="refresh-section">
+          <button class="refresh-btn" @click="handleRefresh">
+            <span class="refresh-icon">↻</span> 刷新数据
+          </button>
+        </div>
+
         <div class="information">
           <table class="gpu-info" v-if="gpuData.length > 0">
             <tbody>
@@ -15,15 +22,15 @@
               </tr>
               <tr>
                 <td class="label">{{ GPU_Power }}</td>
-                <td class="value">{{ gpu.power }}W</td>
+                <td class="value">{{ formatNumber(gpu.power) }}W</td>
               </tr>
               <tr>
                 <td class="label">{{ GPU_Freq }}</td>
-                <td class="value">{{ gpu.freq }}MHz</td>
+                <td class="value">{{ formatNumber(gpu.freq) }}MHz</td>
               </tr>
               <tr>
                 <td class="label">{{ GPU_Loads }}</td>
-                <td class="value">{{ gpu.loads }}%</td>
+                <td class="value">{{ formatNumber(gpu.loads) }}%</td>
               </tr>
             </template>
             </tbody>
@@ -54,12 +61,24 @@ const gpuData = ref<Array<{
   loads: number
 }>>([])
 
+// 格式化数字，保留两位小数
+const formatNumber = (num: number) => {
+  if (num === undefined || num === null || isNaN(num)) return 'N/A'
+  return num.toFixed(2)
+}
+
 const fetchGpuData = async () => {
   try {
     const response = await axios.get('http://127.0.0.234:8081/data')
     console.log(response.data)
     if (response.data?.gpus) {
-      gpuData.value = response.data.gpus
+      gpuData.value = response.data.gpus.map(gpu => ({
+        name: gpu.name || '未知GPU',
+        power: parseFloat(gpu.power) || 0,
+        freq: parseFloat(gpu.freq) || 0,
+        loads: parseFloat(gpu.loads) || 0
+      }))
+
       if (gpuData.value.length === 0) {
         noGPUDataMessage.value = '未检测到GPU设备'
       }
@@ -71,11 +90,16 @@ const fetchGpuData = async () => {
   }
 }
 
+// 手动刷新数据
+const handleRefresh = async () => {
+  await fetchGpuData()
+}
+
 let timer: number
 
 onMounted(() => {
   fetchGpuData()
-  setInterval(fetchGpuData, 3000)
+  timer = setInterval(fetchGpuData, 3000)
 })
 
 onBeforeUnmount(() => {
@@ -88,7 +112,6 @@ onBeforeUnmount(() => {
   color: #f2f2f2;
 }
 
-/* GPU展示页面设计 - 复用CPU的样式 */
 .background {
   background-color: black;
   position: fixed;
@@ -104,9 +127,41 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
+.refresh-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.refresh-btn {
+  background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+}
+
+.refresh-icon {
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+
+.refresh-btn:hover .refresh-icon {
+  transform: rotate(180deg);
+}
+
 .gpu-info {
   width: 100%;
-  max-width: 400px;
+  padding: 25% 25%;
+  max-width: 500px;
   margin: 30px auto;
   background-color: black;
   border-collapse: collapse;
@@ -117,7 +172,7 @@ onBeforeUnmount(() => {
 }
 
 .gpu-info td {
-  padding: 4% 5%;
+  padding: 3% 2%;
   vertical-align: middle;
 }
 
@@ -143,7 +198,7 @@ onBeforeUnmount(() => {
 /* GPU标题样式 */
 .gpu-title {
   font-weight: bold;
-  color: #4fc3f7; /* 浅蓝色突出显示 */
+  color: #4fc3f7;
   text-align: center;
   padding-top: 15px;
   border-bottom: 2px solid #4fc3f7 !important;

@@ -2,6 +2,13 @@
   <div class="All_information">
     <div class="background">
       <div class="cpu_name_style">
+        <!-- 刷新按钮 -->
+        <div class="refresh-section">
+          <button class="refresh-btn" @click="handleRefresh">
+            <span class="refresh-icon">↻</span> 刷新数据
+          </button>
+        </div>
+
         <div class="information">
           <table class="cpu-info">
             <caption>{{ cpuData.name }}</caption>
@@ -106,11 +113,16 @@ const fetchCpuData = async () => {
   }
 }
 
+// 手动刷新数据
+const handleRefresh = async () => {
+  await fetchCpuData()
+}
+
 let timer: number;
 
 onMounted(() => {
   fetchCpuData();
-  setInterval(fetchCpuData, 3000);
+  timer = setInterval(fetchCpuData, 3000);
 })
 
 onBeforeUnmount(() => {
@@ -136,6 +148,37 @@ onBeforeUnmount(() => {
   background-color: #1f1f27;
   width: 100%;
   height: 100%;
+}
+
+.refresh-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.refresh-btn {
+  background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+}
+
+.refresh-icon {
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+
+.refresh-btn:hover .refresh-icon {
+  transform: rotate(180deg);
 }
 
 .cpu-info {

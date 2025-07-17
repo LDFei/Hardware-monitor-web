@@ -18,59 +18,58 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import {useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
-const router=useRouter();
+const router = useRouter()
+const route = useRoute()
+
 let Menu = ref([
   {
     name: 'CPU',
-    isActive : true,
-    id:0,
-    path:"/hardwareInfo/cpu",
+    isActive: false,
+    id: 0,
+    path: "/hardwareInfo/cpu",
   },
   {
     name: 'GPU',
-    isActive : false,
-    id:1,
-    path:"/hardwareInfo/gpu",
-  },
-  {
-    name: '主板',
-    isActive : false,
-    id:2,
-    path:"/hardwareInfo/board",
+    isActive: false,
+    id: 1,
+    path: "/hardwareInfo/gpu",
   },
   {
     name: '内存',
-    isActive : false,
-    id:3,
-    path:"/hardwareInfo/mem",
-  },
-  {
-    name: '硬盘',
-    isActive : false,
-    id:4,
-    path:"/hardwareInfo/disk_usage",
-  },
-  {
-    name:'显示器',
-    isActive : false,
-    id:5,
-    path:"/hardwareInfo/display",
+    isActive: false,
+    id: 3,
+    path: "/hardwareInfo/mem",
   }
 ])
-function switchbutton(menu:{
-  name: string,isActive: boolean,path:string},j : number)
-  {
-      for(let i=0;i<Menu.value.length;i++)
-      {
-        Menu.value[i].isActive = false;
-      }
-      Menu.value[j].isActive = true;
-      router.push(menu.path);
-  }
 
+// 初始化激活状态
+const initActiveMenu = () => {
+  const currentPath = route.path
+  Menu.value.forEach(item => {
+    item.isActive = currentPath.startsWith(item.path)
+  })
+
+  // 如果没有任何激活项，默认激活第一个
+  if (!Menu.value.some(item => item.isActive) && Menu.value.length > 0) {
+    Menu.value[0].isActive = true
+    router.push(Menu.value[0].path)
+  }
+}
+
+const switchbutton = (menu: { name: string, isActive: boolean, path: string }, j: number) => {
+  Menu.value.forEach((item, i) => {
+    item.isActive = i === j
+  })
+  router.push(menu.path)
+}
+
+// 组件挂载时初始化
+onMounted(() => {
+  initActiveMenu()
+})
 
 </script>
 
@@ -89,22 +88,22 @@ function switchbutton(menu:{
 
 /*按钮的风格样式和格式设计*/
 .buttonStyle {
-
   display: block;
-
   width: 100%;
-  height: 16.67%;
+  height: 33.3%;
   background: linear-gradient(135deg, #0b0d1c, #160b34);
   color: #f2f2f2;
-
   border: none;
+  transition: all 0.3s ease;
 }
+
 /*点击按钮后按钮的样式*/
-.buttonStyle.active{
+.buttonStyle.active {
   background: #fb00c5;
   border-radius: 10px 10px 10px 10px;
 }
-.buttons{
+
+.buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;

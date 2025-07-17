@@ -226,7 +226,7 @@ onBeforeUnmount(() => {
 /* 保持之前的样式不变 */
 .status-container {
   width: 100%;
-  padding: 45% 85%;
+  padding: 20% 60%;
   background-color: #1a1a1a;
   color: #fff;
   font-family: 'Segoe UI', sans-serif;
