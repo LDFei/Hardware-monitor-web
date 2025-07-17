@@ -32,7 +32,7 @@ const boardData = ref({
 
 const fetchBoardData = async () => {
   try {
-    const response = await axios.post('http://127.0.0.234:8081/info')
+    const response = await axios.get('http://127.0.0.234:8081/info?board=ture')
     console.log(response.data)
     if (response.data?.board) {
       boardData.value = response.data.board

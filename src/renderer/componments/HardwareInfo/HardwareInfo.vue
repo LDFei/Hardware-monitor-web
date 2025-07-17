@@ -51,13 +51,13 @@ let Menu = ref([
     name: '硬盘',
     isActive : false,
     id:4,
-    path:"",
+    path:"/hardwareInfo/disk_usage",
   },
   {
     name:'显示器',
     isActive : false,
     id:5,
-    path:"",
+    path:"/hardwareInfo/display",
   }
 ])
 function switchbutton(menu:{

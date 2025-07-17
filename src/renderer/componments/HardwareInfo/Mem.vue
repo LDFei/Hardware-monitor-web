@@ -37,7 +37,7 @@
             <tbody>
             <tr>
               <td class="label">内存大小:</td>
-              <td class="value">{{ formatNumber(staticMem.size) }} MB</td>
+              <td class="value">{{ formatNumber(staticMem.size) }} GB</td>
             </tr>
             <tr>
               <td class="label">内存名称列表:</td>
@@ -108,21 +108,15 @@ const fetchDynamicMemData = async () => {
 // 获取静态内存数据 (POST请求)
 const fetchStaticMemData = async () => {
   try {
-    const response = await axios.post('http://127.0.0.234:8081/info',
-      ["memory"],
-       {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (response.data?.mem) {
+    const response = await axios.get('http://127.0.0.234:8081/info?memory=true')
+    if (response.data?.memory) {
       staticMem.value = {
-        size: parseFloat(response.data.mem.size) || 0,
-        names: response.data.mem.names || []
+        size: parseFloat(response.data.memory.size) || 0,
+        names: response.data.memory.names || []
       }
     }
-  } catch (error) {
+  }
+catch (error) {
     console.error('获取静态内存数据失败:', error)
     staticMem.value = {
       size: -1,
@@ -194,6 +188,7 @@ onBeforeUnmount(() => {
   color: #fff;
   font-family: sans-serif;
   font-size: 16px;
+  border-bottom: 1px solid #333;
 }
 
 .mem-info td {
@@ -206,7 +201,7 @@ onBeforeUnmount(() => {
   text-align: right;
   padding-right: 30px;
   white-space: nowrap;
-  width: 40%;
+  border-bottom: 1px solid #333;
 }
 
 .mem-info .value {
