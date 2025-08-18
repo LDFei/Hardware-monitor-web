@@ -131,49 +131,61 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.cpu_name_style {
-  color: #f2f2f2;
-}
-
-.background {
-  background-color: black;
-  position: fixed;
-  width: 70%;
-  height: 80%;
-  top: 10%;
-  left: 23%;
-}
-
+/* 整体容器 */
 .All_information {
-  background-color: #1f1f27;
-  width: 100%;
+  left: 10%;
   height: 100%;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+  background: transparent;
+  color: #e6e8ef;
+  box-sizing: border-box;
 }
 
+/* 卡片背景 */
+.background {
+  width: 90%;
+  max-width: 900px;
+  background: linear-gradient(135deg, #1e1e2f, #151521);
+  border-radius: 20px;
+  padding: 30px 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-sizing: border-box;
+}
+
+/* 刷新按钮 */
 .refresh-section {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 15px;
 }
 
 .refresh-btn {
-  background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+  background: linear-gradient(135deg, #ff00cc, #7928ca);
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  padding: 10px 18px;
+  border-radius: 12px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(121, 40, 202, 0.4);
 }
 
 .refresh-btn:hover {
-  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+  background: linear-gradient(135deg, #7928ca, #ff00cc);
+  transform: translateY(-2px);
 }
 
 .refresh-icon {
-  margin-right: 5px;
+  margin-right: 6px;
   transition: transform 0.3s ease;
 }
 
@@ -181,60 +193,73 @@ onBeforeUnmount(() => {
   transform: rotate(180deg);
 }
 
+/* 表格样式 */
 .cpu-info {
   width: 100%;
-  max-width: 600px;
-  margin: 30px auto;
-  background-color: black;
-  border-collapse: collapse;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 16px;
-  border-bottom: 1px solid #444
+  border-collapse: separate;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.1);
+  table-layout: fixed;
 }
 
 .cpu-info caption {
-  color: #ff00ff; /* 粉色标题 */
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px 0;
   text-align: center;
-  border-bottom: 2px solid #ff00ff;
-  margin-bottom: 10px;
+  font-weight: 700;
+  color: #ff79c6;
+  font-size: 18px;
+  padding: 14px 0;
+  border-bottom: 2px solid #7928ca;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .cpu-info td {
-  padding: 10px 15px;
+  padding: 12px 15px;
+  font-size: 15px;
   vertical-align: middle;
+  word-break: break-word;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+
+.cpu-info tr td:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cpu-info .label {
-  font-weight: normal;
   text-align: right;
-  padding-right: 10px;
-  color: #ff00ff; /* 粉色标签 */
-  position: relative;
-}
-
-.cpu-info .label::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #ff00ff; /* 粉色小方块 */
-  margin-right: 8px;
+  color: #a8adbd;
+  font-weight: 500;
+  width: 35%;
+  padding-right: 20px;
 }
 
 .cpu-info .value {
   text-align: left;
-  padding-left: 10px;
+  color: #e6e8ef;
+  font-weight: 600;
 }
 
-.cpu-info tr {
-  height: 40px;
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .background {
+    padding: 20px 15px;
+  }
+
+  .cpu-info td {
+    padding: 10px 8px;
+  }
+
+  .cpu-info .label {
+    width: 40%;
+    font-size: 14px;
+  }
+
+  .cpu-info .value {
+    font-size: 14px;
+  }
 }
 
-.cpu-info tr:not(:last-child) {
-  border-bottom: 1px solid #444; /* 较淡的分隔线 */
-}
+
 </style>

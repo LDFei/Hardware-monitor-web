@@ -108,49 +108,57 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.gpu_name_style {
-  color: #f2f2f2;
-}
-
-.background {
-  background-color: black;
-  position: fixed;
-  width: 70%;
-  height: 80%;
-  top: 10%;
-  left: 23%;
-}
-
+/* 整体容器 */
 .All_information {
-  background-color: #1f1f27;
-  width: 100%;
-  height: 100%;
+  flex: 1;
+  padding: 30px 50px;
+  background: transparent; /* 使用父容器的背景 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e6e8ef;
 }
 
+/* 卡片背景 */
+.background {
+  width: 100%;
+  max-width: 800px;
+  background: linear-gradient(135deg, #1e1e2f, #151521);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 标题和刷新按钮区域 */
 .refresh-section {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 15px;
 }
 
 .refresh-btn {
-  background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+  background: linear-gradient(135deg, #ff00cc, #7928ca);
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 14px;
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(121, 40, 202, 0.4);
 }
 
 .refresh-btn:hover {
-  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+  background: linear-gradient(135deg, #7928ca, #ff00cc);
+  transform: translateY(-1px);
 }
 
 .refresh-icon {
-  margin-right: 5px;
+  margin-right: 6px;
   transition: transform 0.3s ease;
 }
 
@@ -158,56 +166,52 @@ onBeforeUnmount(() => {
   transform: rotate(180deg);
 }
 
+/* 表格样式 */
 .gpu-info {
   width: 100%;
-  padding: 25% 25%;
-  max-width: 500px;
-  margin: 30px auto;
-  background-color: black;
   border-collapse: collapse;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 16px;
-  border-bottom: 1px solid white;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .gpu-info td {
-  padding: 3% 2%;
-  vertical-align: middle;
+  padding: 14px 18px;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .gpu-info .label {
-  font-weight: normal;
   text-align: right;
-  padding-right: 30px;
+  color: #a8adbd;
+  font-weight: 500;
+  width: 40%;
 }
 
 .gpu-info .value {
-  width: 60%;
+  text-align: left;
+  color: #e6e8ef;
+  font-weight: 600;
 }
 
-.gpu-info tr {
-  height: 40px;
-}
-
-/* 下方白线 */
-.gpu-info tr:not(:last-child) {
-  border-bottom: 1px solid white;
-}
-
-/* GPU标题样式 */
+/* GPU 标题行 */
 .gpu-title {
-  font-weight: bold;
-  color: #4fc3f7;
   text-align: center;
-  padding-top: 15px;
-  border-bottom: 2px solid #4fc3f7 !important;
+  font-weight: 700;
+  color: #ff79c6;
+  font-size: 16px;
+  padding: 12px;
+  border-bottom: 2px solid #7928ca !important;
+  background: rgba(255, 255, 255, 0.04);
 }
 
+/* 没有数据时 */
 .no-gpu {
-  color: white;
   text-align: center;
+  color: #bbb;
   padding: 20px;
-  font-size: 16px;
+  font-size: 15px;
+  font-style: italic;
 }
+
 </style>

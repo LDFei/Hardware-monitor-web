@@ -223,81 +223,102 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* 保持之前的样式不变 */
 .status-container {
-  width: 100%;
-  padding: 20% 60%;
-  background-color: #1a1a1a;
+  width: 120%;
+  margin-left: 10%;
+  min-height: 100vh;
+  padding: 10px 120px;
+  background: linear-gradient(135deg, #1e1e2f, #121212);
   color: #fff;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", "PingFang SC", sans-serif;
+  box-sizing: border-box;
 }
 
+
+/* 顶部标题 */
 .status-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .status-header h1 {
-  font-size: 24px;
-  color: #fff;
-  margin: 0;
-  font-weight: normal;
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1px;
 }
 
 .time {
   font-size: 18px;
-  color: #aaa;
+  color: #9aa0a6;
 }
 
+/* 核心指标 */
 .core-metrics {
   display: flex;
-  justify-content: flex-start;
-  gap: 40px;
-  margin-bottom: 30px;
+  justify-content: center; /* 居中对齐 */
+  gap: 60px;
+  margin-bottom: 40px;
 }
 
 .metric-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.2s ease;
+}
+.metric-item:hover {
+  transform: scale(1.08);
 }
 
 .empty-circle {
-  width: 80px;
-  height: 80px;
-  border: 3px solid #4fc3f7;
+  width: 90px;
+  height: 90px;
+  border: 4px solid transparent;
   border-radius: 50%;
+  background: linear-gradient(#1e1e2f, #1e1e2f) padding-box,
+  linear-gradient(135deg, #4fc3f7, #00bcd4) border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 15px rgba(79, 195, 247, 0.2);
 }
 
 .metric-percent {
-  font-size: 18px;
-  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .metric-label {
   font-size: 14px;
-  color: #aaa;
+  color: #9aa0a6;
 }
 
+/* 详细信息区域 */
 .detail-sections {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 24px;
+  margin-bottom: 30px;
+  justify-content: space-between; /* 保持两边对齐 */
 }
 
 .detail-section {
   flex: 1;
-  min-width: 200px;
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  padding: 15px;
+  min-width: 260px;
+  background: #1f1f2e;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.detail-section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
 }
 
 .detail-section h3 {
@@ -305,26 +326,30 @@ onBeforeUnmount(() => {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 16px;
-  font-weight: normal;
-  border-bottom: 1px solid #444;
+  font-weight: 500;
+  border-bottom: 1px solid #333;
   padding-bottom: 8px;
 }
 
 .detail-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 14px;
+  color: #d1d5db;
 }
 
 .detail-row:last-child {
   margin-bottom: 0;
 }
 
+/* 网络状态 */
 .network-status {
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  padding: 15px;
+  background: #1f1f2e;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  margin-top: 20px;
 }
 
 .network-status h3 {
@@ -332,19 +357,21 @@ onBeforeUnmount(() => {
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 16px;
-  font-weight: normal;
-  border-bottom: 1px solid #444;
+  font-weight: 500;
+  border-bottom: 1px solid #333;
   padding-bottom: 8px;
 }
 
 .network-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 14px;
+  color: #d1d5db;
 }
 
 .network-row:last-child {
   margin-bottom: 0;
 }
 </style>
+

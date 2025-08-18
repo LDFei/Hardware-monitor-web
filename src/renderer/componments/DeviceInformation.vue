@@ -85,88 +85,122 @@ const  panelHeader_Timing=ref('分辨率: 1920*462');
 </template>
 
 <style scoped>
-
-/*小字体yong的格式样式*/
-.yong{
+/* 小字体yong */
+.yong {
   position: fixed;
   transform: rotate(90deg);
   height: 6%;
-  top: 19%;
-  left: 4%;
-  color: #494949;
-  font-size: small;
+  top: 17%;
+  left: 2%;
+  color: #7f8c8d;
+  font-size: 12px;
   font-weight: 600;
+  letter-spacing: 2px;
+  opacity: 0.8;
 }
-/*大字体YONG的格式样式*/
-.Yong{
+
+/* 大字体YOUNG */
+.Yong {
   position: fixed;
   transform: rotate(90deg);
-  color: #494949;
+  color: #e0e0e0;
   font-size: 70px;
-  left: 7%;
+  left: 6%;
   top: 14%;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
-/*我有我的YOUNG的样式设计*/
-.myYoung{
-  color: #f2f2f2;
-  font-size: 75px;
-  padding: 5.5% 2.5%;
-  text-shadow: 0 2px 4px rgb(22, 11, 52); /* 轻微阴影增加立体感 */
-  text-rendering: optimizeLegibility; /* 字体渲染优化 */
+
+/* 我有我的YOUNG */
+.myYoung {
+  color: #ffffff;
+  font-size: 64px;
+  font-weight: 700;
+  padding: 6% 3%;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+  line-height: 1.2;
+  animation: fadeInUp 1.2s ease; /* 动画效果 */
 }
-/*右上角盒子的背景和图片设计*/
-.boxOftital{
+
+/* 右上角标题盒子 */
+.boxOftital {
   position: fixed;
-  background-color: #6953ce;
+  background: linear-gradient(135deg, #6c63ff, #3a2fa0);
   width: 82.5%;
   height: 35%;
   left: 17%;
   top: 4%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
-/*设备列表的格式设计*/
-.equipmentList{
+
+/* 设备列表 */
+.equipmentList {
   position: fixed;
-  color: #f2f2f2;
+  color: #f9f9f9;
   font-weight: 600;
   font-size: 26px;
   left: 11.5%;
   top: 38%;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
-/*控制面板的样式设计*/
-.controlPanel{
+
+/* 控制面板 */
+.controlPanel {
   position: fixed;
   width: 85%;
   height: 30%;
-  background-color: #131521;
+  background: #1e2132;
   top: 44%;
   left: 12.5%;
-
+  border-radius: 16px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+  padding: 20px;
 }
-/*电脑型号模块设计*/
-.panelHeader_Model{
-  color: #f2f2f2;
+
+/* 电脑型号 */
+.panelHeader_Model {
+  color: #ffffff;
   font-size: 20px;
   font-weight: 600;
-  padding: 1% 1%;
-  width: 13%;
-  height: 10%;
+  padding: 5px 10px;
+  background: linear-gradient(90deg, #3a3f5c, #2c2f45);
+  border-radius: 8px;
+  display: inline-block;
 }
 
-/*电脑分辨率模块设计*/
-.panelHeader_Timing{
+/* 分辨率 */
+.panelHeader_Timing {
   position: fixed;
-  color: #f2f2f2;
+  color: #cfd8dc;
   top: 47%;
   left: 28%;
+  font-size: 16px;
+  letter-spacing: 1px;
 }
 
-/*可控白线*/
-.white-line
-{
-  height: 0.5px;
-  background: #272b37;
-  margin: 1px 0; /* 控制间距 */
+/* 白线 */
+.white-line {
+  height: 1px;
+  background: #2f3549;
+  margin: 10px 0;
+  border-radius: 2px;
+}
 
+/* 动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
+

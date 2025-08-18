@@ -57,7 +57,7 @@ const buttonMenu=ref([
 const router=useRouter();
 /*单独的设置部分*/
 const buttonSetting=ref({name:'设置',isActive:false});
-
+router.push("/overview");
 
 function switchbutton(BI: { name:string, id: number, path: string, isActive: boolean}, i:number){
   for(let j=0;j<buttonMenu.value.length;j++){

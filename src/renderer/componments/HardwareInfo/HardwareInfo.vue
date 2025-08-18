@@ -74,39 +74,68 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/*最外层的盒子的样式设计*/
+/* 整体布局容器 */
 .all {
   position: fixed;
-  top: 5%;
-  left: 15%;
-  height: 90%;
-  width: 80%;
-  background-color: #1d1d25;
+  left: 10%;
+  height: 100%;
+  width: 90%;
+  background: linear-gradient(135deg, #1d1d25, #0f0f17);
   display: flex;
   flex-direction: row;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
 }
 
-/*按钮的风格样式和格式设计*/
-.buttonStyle {
-  display: block;
-  width: 100%;
-  height: 33.3%;
-  background: linear-gradient(135deg, #0b0d1c, #160b34);
-  color: #f2f2f2;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-/*点击按钮后按钮的样式*/
-.buttonStyle.active {
-  background: #fb00c5;
-  border-radius: 10px 10px 10px 10px;
-}
-
+/* 左侧按钮区域 */
 .buttons {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 8%;
+  justify-content: flex-start;
+  width: 12%;
+  background: #141421;
+  padding: 10px 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 按钮默认样式 */
+.buttonStyle {
+  display: block;
+  width: 100%;
+  height: 80px;
+  background: transparent;
+  color: #d0d0d0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+/* hover 效果 */
+.buttonStyle:hover {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+  color: #ffffff;
+}
+
+/* 激活状态 */
+.buttonStyle.active {
+  background: linear-gradient(135deg, #ff00cc, #7928ca);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(255, 0, 204, 0.4);
+  margin: 5px 8px;
+}
+
+/* 右侧内容区 router-view */
+.all :deep(.router-view) {
+  flex: 1;
+  padding: 30px 90px;
+  overflow-y: auto;
 }
 </style>
+

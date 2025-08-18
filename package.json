@@ -27,6 +27,7 @@
     "pinia": "^3.0.3",
     "ref-array-napi": "^1.2.2",
     "ref-napi": "^3.0.3",
+    "tdesign-vue-next": "^1.15.5",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1"
   },

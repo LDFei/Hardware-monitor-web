@@ -10,44 +10,29 @@
         </div>
 
         <!-- 动态内存信息 -->
-        <div class="section">
-          <h2 class="section-title">内存信息</h2>
-          <table class="mem-info">
+        <div class="information">
+          <table class="mem-info" v-if="dynamicMem">
             <tbody>
-            <tr>
-              <td class="label">已用内存:</td>
-              <td class="value">{{ formatNumber(dynamicMem.used_size) }} GB</td>
-            </tr>
-            <tr>
-              <td class="label">虚拟内存已用:</td>
-              <td class="value">{{ formatNumber(dynamicMem.vmem_used_size) }} GB</td>
-            </tr>
-            <tr>
-              <td class="label">空闲内存:</td>
-              <td class="value">{{ formatNumber(dynamicMem.free_size) }} GB</td>
-            </tr>
-            <tr>
-              <td class="label">虚拟内存空闲:</td>
-              <td class="value">{{ formatNumber(dynamicMem.vmem_free_size) }} GB</td>
-            </tr>
-            <tr>
-              <td class="label">内存频率:</td>
-              <td class="value">{{ formatNumber(dynamicMem.clock) }} MHz</td>
-            </tr>
+            <template v-for="(item, index) in dynamicMemRows" :key="index">
+              <tr>
+                <td class="label">{{ item.label }}</td>
+                <td class="value">{{ item.value }}</td>
+              </tr>
+            </template>
             </tbody>
           </table>
         </div>
 
         <!-- 静态内存信息 -->
-        <div class="section">
-          <table class="mem-info">
+        <div class="information">
+          <table class="mem-info" v-if="staticMem">
             <tbody>
             <tr>
-              <td class="label">内存大小:</td>
+              <td class="label">内存大小</td>
               <td class="value">{{ formatNumber(staticMem.size) }} GB</td>
             </tr>
             <tr>
-              <td class="label">内存名称列表:</td>
+              <td class="label">内存名称列表</td>
               <td class="value">
                 <ul class="name-list">
                   <li v-for="(name, index) in staticMem.names" :key="index">{{ name }}</li>
@@ -63,10 +48,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import axios from 'axios'
 
-// 动态内存数据
 const dynamicMem = ref({
   used_size: 0,
   vmem_used_size: 0,
@@ -75,90 +59,69 @@ const dynamicMem = ref({
   clock: 0
 })
 
-// 静态内存数据
 const staticMem = ref({
   size: 0,
   names: [] as string[]
 })
 
-// 是否已加载静态数据
 const staticDataLoaded = ref(false)
 
-// 格式化数字，保留两位小数
 const formatNumber = (num: number) => {
   if (num === undefined || num === null || isNaN(num)) return 'N/A'
   return num.toFixed(2)
 }
 
-// 获取动态内存数据 (GET请求)
 const fetchDynamicMemData = async () => {
   try {
-    const response = await axios.get('http://127.0.0.234:8081/data')
-    if (response.data?.mem) {
+    const res = await axios.get('http://127.0.0.234:8081/data')
+    if (res.data?.mem) {
       dynamicMem.value = {
-        used_size: parseFloat(response.data.mem.used_size) || 0,
-        vmem_used_size: parseFloat(response.data.mem.vmem_used_size) || 0,
-        free_size: parseFloat(response.data.mem.free_size) || 0,
-        vmem_free_size: parseFloat(response.data.mem.vmem_free_size) || 0,
-        clock: parseFloat(response.data.mem.clock) || 0
+        used_size: parseFloat(res.data.mem.used_size) || 0,
+        vmem_used_size: parseFloat(res.data.mem.vmem_used_size) || 0,
+        free_size: parseFloat(res.data.mem.free_size) || 0,
+        vmem_free_size: parseFloat(res.data.mem.vmem_free_size) || 0,
+        clock: parseFloat(res.data.mem.clock) || 0
       }
     }
-  } catch (error) {
-    console.error('获取动态内存数据失败:', error)
-    dynamicMem.value = {
-      used_size: -1,
-      vmem_used_size: -1,
-      free_size: -1,
-      vmem_free_size: -1,
-      clock: -1
-    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
-// 获取静态内存数据 (GET请求)
 const fetchStaticMemData = async () => {
-  if (staticDataLoaded.value) return // 如果已加载则不再获取
-
+  if (staticDataLoaded.value) return
   try {
-    const response = await axios.get('http://127.0.0.234:8081/info?memory=true')
-    if (response.data?.memory) {
+    const res = await axios.get('http://127.0.0.234:8081/info?memory=true')
+    if (res.data?.memory) {
       staticMem.value = {
-        size: parseFloat(response.data.memory.size) || 0,
-        names: response.data.memory.names || []
+        size: parseFloat(res.data.memory.size) || 0,
+        names: res.data.memory.names || []
       }
       staticDataLoaded.value = true
     }
-  } catch (error) {
-    console.error('获取静态内存数据失败:', error)
-    staticMem.value = {
-      size: -1,
-      names: ['数据加载失败']
-    }
+  } catch (err) {
+    console.error(err)
   }
 }
 
-// 手动刷新数据
 const handleRefresh = async () => {
-  await Promise.all([
-    fetchDynamicMemData(),
-    fetchStaticMemData() // 手动刷新时也刷新静态数据
-  ])
+  await Promise.all([fetchDynamicMemData(), fetchStaticMemData()])
 }
 
-// 统一获取数据
-const fetchAllMemData = async () => {
-  await Promise.all([
-    fetchDynamicMemData(),
-    fetchStaticMemData()
-  ])
-}
+const dynamicMemRows = computed(() => [
+  { label: '已用内存', value: `${formatNumber(dynamicMem.value.used_size)} GB` },
+  { label: '虚拟内存已用', value: `${formatNumber(dynamicMem.value.vmem_used_size)} GB` },
+  { label: '空闲内存', value: `${formatNumber(dynamicMem.value.free_size)} GB` },
+  { label: '虚拟内存空闲', value: `${formatNumber(dynamicMem.value.vmem_free_size)} GB` },
+  { label: '内存频率', value: `${formatNumber(dynamicMem.value.clock)} MHz` }
+])
 
 let timer: number
 
 onMounted(() => {
-  fetchAllMemData()
-  // 只定时刷新动态数据
-  setInterval(fetchDynamicMemData, 3000)
+  fetchDynamicMemData()
+  fetchStaticMemData()
+  timer = setInterval(fetchDynamicMemData, 3000)
 })
 
 onBeforeUnmount(() => {
@@ -167,51 +130,55 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.mem_name_style {
-  color: #f2f2f2;
-  padding: 20px;
+.All_information {
+  flex: 1;
+  padding: 30px 50px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e6e8ef;
 }
 
 .background {
-  background-color: black;
-  position: fixed;
-  width: 70%;
-  height: 80%;
-  top: 10%;
-  left: 23%;
-  overflow-y: auto;
-}
-
-.All_information {
-  background-color: #1f1f27;
   width: 100%;
-  height: 100%;
+  max-width: 800px;
+  background: linear-gradient(135deg, #1e1e2f, #151521);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
 .refresh-section {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 15px;
 }
 
 .refresh-btn {
-  background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+  background: linear-gradient(135deg, #ff00cc, #7928ca);
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 14px;
   display: flex;
   align-items: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(121, 40, 202, 0.4);
 }
 
 .refresh-btn:hover {
-  background: linear-gradient(135deg, #9c27b0, #6a1b9a);
+  background: linear-gradient(135deg, #7928ca, #ff00cc);
+  transform: translateY(-1px);
 }
 
 .refresh-icon {
-  margin-right: 5px;
+  margin-right: 6px;
   transition: transform 0.3s ease;
 }
 
@@ -219,53 +186,33 @@ onBeforeUnmount(() => {
   transform: rotate(180deg);
 }
 
-.section {
-  margin-bottom: 30px;
-}
-
-.section-title {
-  color: #4fc3f7;
-  margin-bottom: 15px;
-  font-size: 18px;
-  border-bottom: 1px solid #4fc3f7;
-  padding-bottom: 5px;
-}
-
 .mem-info {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: black;
   border-collapse: collapse;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 16px;
-  border-bottom: 1px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  table-layout: fixed;
 }
 
 .mem-info td {
-  padding: 12px 15px;
-  vertical-align: middle;
+  padding: 14px 18px;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  word-break: break-word;
 }
 
 .mem-info .label {
-  font-weight: normal;
   text-align: right;
-  padding-right: 30px;
-  white-space: nowrap;
-  border-bottom: 1px solid #333;
+  color: #a8adbd;
+  font-weight: 500;
+  width: 40%;
 }
 
 .mem-info .value {
-  width: 60%;
-}
-
-.mem-info tr {
-  height: auto;
-}
-
-.mem-info tr:not(:last-child) {
-  border-bottom: 1px solid #333;
+  text-align: left;
+  color: #e6e8ef;
+  font-weight: 600;
 }
 
 .name-list {
